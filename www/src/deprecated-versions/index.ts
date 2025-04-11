@@ -1,0 +1,1 @@
+export * from './deprecated-version-1';
