@@ -4,7 +4,7 @@ import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { Helpers, SceneLights } from './components';
 import { TRotation } from './types';
-import { TGLBModels } from './constants';
+import { rotationSettings, TGLBModels, TGLBModelsV2 } from './constants';
 
 function rescaleObject(obj: THREE.Object3D, targetSize: { length: number; width: number; height: number }) {
     const bbox = new THREE.Box3().setFromObject(obj);
@@ -105,12 +105,12 @@ export const Scene: React.FC = () => {
             <SceneLights />
             {/* <Room /> */}
 
-            {TGLBModels.map(obj => (
+            {TGLBModelsV2.map(obj => (
                 <Model
                     key={obj.new_object_id}
-                    modelPath={`/assets/${obj.new_object_id}.glb`}
+                    modelPath={`/assets/new/${obj.new_object_id}.glb`}
                     position={[obj.position.x, obj.position.y, obj.position.z]}
-                    rotation={obj.rotation}
+                    rotation={rotationSettings[obj.new_object_id]}
                     size_in_meters={obj.size_in_meters}
                 />
             ))}

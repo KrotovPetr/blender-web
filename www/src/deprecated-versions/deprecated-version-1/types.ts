@@ -28,3 +28,14 @@ export interface TGLBModel {
     cluster: any;
     position: Position
 }
+
+
+export interface TGLBModelV2 {
+    new_object_id: string,
+    size_in_meters: TModelSize,
+    position: Position,
+    rotation_z: number,
+    style: string,
+    material: string,
+    color: string
+}
