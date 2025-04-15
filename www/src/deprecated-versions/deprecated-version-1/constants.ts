@@ -528,25 +528,32 @@ export const TGLBModelsV2: TGLBModelV2[] = [
 
 
 export const rotationSettings: Record<string, TRotation> = {
-    "sofa_1": { x_angle: toDegrees(Math.PI * 1.5), y_angle: toDegrees(0), z_angle: toDegrees(Math.PI * 1.5) },
-    "sofa_2": { x_angle: toDegrees(Math.PI * 1.5), y_angle: 0.0, z_angle: toDegrees(0) },
-    "side table_1": { x_angle: 0.0, y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "armchair_1": { x_angle: toDegrees(Math.PI), y_angle: 0.0, z_angle: toDegrees(Math.PI * 1.5) },
-    "rug_1": { x_angle: 0.0, y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "coffee table_1": { x_angle: toDegrees(Math.PI * 1.5), y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "coffee table_2": { x_angle: toDegrees(Math.PI * 1.5), y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "coffee table_3": { x_angle: toDegrees(Math.PI * 1.5), y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "coffee table_4": { x_angle: toDegrees(Math.PI * 1.5), y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "floor lamp_1": { x_angle: 0.0, y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "floor plant_1": { x_angle: toDegrees(0), y_angle: 0.0, z_angle: toDegrees(0) },
-    "floor plant_2": { x_angle: toDegrees(0), y_angle: 0.0, z_angle: toDegrees(0) },
-    "armchair_2": { x_angle: toDegrees(Math.PI), y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "armchair_3": { x_angle: toDegrees(Math.PI), y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "sofa_3": { x_angle: toDegrees(Math.PI * 1.5), y_angle: 0.0, z_angle: toDegrees(Math.PI) },
-    "armchair_4": { x_angle: toDegrees(Math.PI), y_angle: 0.0, z_angle: toDegrees(Math.PI * 1.5) },
-    "side table_2": { x_angle: 0.0, y_angle: 0.0, z_angle: toDegrees(0) },
-    "side table_3": { x_angle: 0.0, y_angle: 0.0, z_angle: toDegrees(Math.PI / 2) },
-    "side table_4": { x_angle: 0.0, y_angle: 0.0, z_angle: toDegrees(0) },
-    "window_1": { x_angle: toDegrees(Math.PI / 2), y_angle: toDegrees(Math.PI), z_angle: toDegrees(0) },
-    "window_2": { x_angle: toDegrees(Math.PI / 2), y_angle: toDegrees(Math.PI), z_angle: toDegrees(Math.PI / 2) }
+    "sofa_1": { x_angle: 0, y_angle: 0, z_angle: 0 },
+    "armchair_1": { x_angle: 0, y_angle: 180, z_angle: 0 },
+    "carpet_1": { x_angle: 0, y_angle: 0, z_angle: 0 },
+    "coffee_table_1": { x_angle: 0, y_angle: 90, z_angle: 0 },
+};
+
+export const rotationSettings2: Record<string, TRotation> = {
+    "sofa_1": { x_angle: 0, y_angle: 270, z_angle: 0 },
+    "sofa_2": { x_angle: 0, y_angle: 0, z_angle: 0 },
+    "side table_1": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "armchair_1": { x_angle: 0, y_angle: 270, z_angle: 0 },
+    "rug_1": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "coffee table_1": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "coffee table_2": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "coffee table_3": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "coffee table_4": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "floor lamp_1": { x_angle: 0, y_angle: 270, z_angle: 0 },
+    "floor plant_1": { x_angle: 0, y_angle: 0, z_angle: 0 },
+    "floor plant_2": { x_angle: 0, y_angle: 0, z_angle: 0 },
+    "armchair_2": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "armchair_3": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "sofa_3": { x_angle: 0, y_angle: 180, z_angle: 0 },
+    "armchair_4": { x_angle: 0, y_angle: 270, z_angle: 0 },
+    "side table_2": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "side table_3": { x_angle: 0, y_angle: 90, z_angle: 0 },
+    "side table_4": { x_angle: 0, y_angle: 0, z_angle: 0 },
+    "window_1": { x_angle: 0, y_angle: 180, z_angle: 0 },
+    "window_2": { x_angle: 0, y_angle: 270, z_angle: 0 }
 };
