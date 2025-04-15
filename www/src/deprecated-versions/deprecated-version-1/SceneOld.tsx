@@ -4,32 +4,22 @@ import { OrbitControls, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import { Helpers, SceneLights } from './components';
 import { TRotation } from './types';
-import { rotationSettings, TGLBModels, TGLBModelsV2 } from './constants';
+import { rotationSettings, rotationSettings2, TGLBModels, TGLBModelsV2 } from './constants';
+const SETTINGS = [
+    {
+        rotationSettings,
+        TGLBModels,
+        assetsPathPrefix: '/assets/old',
+    },
+    {
+        rotationSettings: rotationSettings2,
+        TGLBModels: TGLBModelsV2,
+        assetsPathPrefix: '/assets/new',
+    },
+][1];
 
-function rescaleObject(obj: THREE.Object3D, targetSize: { length: number; width: number; height: number }) {
-    const bbox = new THREE.Box3().setFromObject(obj);
-    const size = bbox.getSize(new THREE.Vector3());
-
-    const scale = new THREE.Vector3(
-        targetSize.length / size.x,
-        targetSize.width / size.y,
-        targetSize.height / size.z
-    );
-
-    obj.scale.copy(scale);
-}
-
-function centerObject(obj: THREE.Object3D) {
-    const bbox = new THREE.Box3().setFromObject(obj);
-    const center = bbox.getCenter(new THREE.Vector3());
-
-    // Смещаем объект так, чтобы его центр был в начале координат
-    obj.position.sub(center);
-}
-
-function degToRad(deg: number): number {
-    return (deg * Math.PI) / 180;
-}
+const ROTATION_OFFSET_VECTOR = new THREE.Vector3(Math.PI / 2, 0, 0);
+const DEG_TO_RAD_FACTOR = Math.PI / 180.0;
 
 interface ModelProps {
     modelPath: string;
@@ -38,21 +28,50 @@ interface ModelProps {
     size_in_meters: { length: number; width: number; height: number };
 }
 
+function getSize(obj: THREE.Object3D) {
+    return new THREE.Box3().setFromObject(obj).getSize(new THREE.Vector3());
+}
+
+function getCenter(obj: THREE.Object3D) {
+    return new THREE.Box3().setFromObject(obj).getCenter(new THREE.Vector3())
+        // .sub(getSize(obj).multiply(new THREE.Vector3(0, 0, 0.5)));
+}
+
 const Model: React.FC<ModelProps> = ({ modelPath, position, rotation, size_in_meters }) => {
-    const { scene } = useGLTF(modelPath) as { scene: THREE.Object3D };
+    const { scene } = useGLTF(modelPath);
+
+    const positionVector = useMemo(
+        () => new THREE.Vector3(...position),
+        [position],
+    );
+
+    const rotationEuler = useMemo(() => new THREE.Euler().setFromVector3(
+        new THREE.Vector3(rotation.x_angle, rotation.y_angle, rotation.z_angle)
+        .multiplyScalar(DEG_TO_RAD_FACTOR)
+        .add(ROTATION_OFFSET_VECTOR),
+    ), [rotation]);
+
+    const scaleVector = useMemo(() => (
+        new THREE.Vector3(size_in_meters.length, size_in_meters.height, size_in_meters.width)
+        .divide(getSize(scene))
+    ), [scene, size_in_meters]);
 
     const model = useMemo(() => {
         const clonedScene = scene.clone();
-        rescaleObject(clonedScene, size_in_meters);
-        centerObject(clonedScene);
-        clonedScene.position.set(...position);
-        clonedScene.rotation.set(
-            degToRad(rotation.x_angle ?? 0),
-            degToRad(rotation.y_angle ?? 0),
-            degToRad((rotation.z_angle ?? 0) + Math.PI)
-        );
+
+        // Первым шагом должен быть скейл, т.к. scaleVector настроен на пропорции модели до ротации
+        clonedScene.scale.copy(scaleVector);
+        clonedScene.rotation.copy(rotationEuler);
+
+        // точка позиционирования/вращения расположена не в центре модели.
+        // Вычисляем смещение (разницу между точкой центра модели и точкой её позиционирования)
+        // Вычисляться должно после скейла
+        const scenePositionOffset = getCenter(clonedScene).sub(clonedScene.position);
+
+        clonedScene.position.copy(positionVector.sub(scenePositionOffset));
+
         return clonedScene;
-    }, [scene, position, rotation, size_in_meters]);
+    }, [scene, positionVector, rotationEuler, scaleVector]);
 
     return <primitive object={model} />;
 };
@@ -105,12 +124,12 @@ export const Scene: React.FC = () => {
             <SceneLights />
             {/* <Room /> */}
 
-            {TGLBModelsV2.map(obj => (
+            {SETTINGS.TGLBModels.map(obj => (
                 <Model
                     key={obj.new_object_id}
-                    modelPath={`/assets/new/${obj.new_object_id}.glb`}
+                    modelPath={`${SETTINGS.assetsPathPrefix}/${obj.new_object_id}.glb`}
                     position={[obj.position.x, obj.position.y, obj.position.z]}
-                    rotation={rotationSettings[obj.new_object_id]}
+                    rotation={SETTINGS.rotationSettings[obj.new_object_id]}
                     size_in_meters={obj.size_in_meters}
                 />
             ))}

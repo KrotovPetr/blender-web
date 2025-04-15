@@ -27,3 +27,7 @@ Preview the production build locally:
 ```bash
 pnpm preview
 ```
+
+## Ссылка на фикс моделей
+
+<https://stackoverflow.com/questions/75886578/three-gltfloader-unknown-extension-khr-materials-pbrspecularglossiness>
